@@ -1,4 +1,5 @@
 import sys, string
+
 class Solution:
 	def twoSum(self, nums, target):
 		if len(nums) <= 1:
@@ -79,22 +80,103 @@ class Solution:
 			index += step
 		return "".join(rows)
 	
-#	def findMedianSortedArrays(self, nums1, nums2):
+	def findMedianSortedArrays(self, nums1, nums2):
+		ret = nums1 + nums2
+		ret.sort()
+		if len(ret) == 2:
+			m = (float(ret[0]) + float(ret[1]))/2
+		elif len(ret) != 2 and (len(ret) % 2) == 0:
+			m = float(float(ret[(len(ret)/2)-1]) + float(ret[(len(ret)/2)]))/2
+		else:
+			m = float(ret[(len(ret)/2)])
+		return m
 
+	def isPalindrome(self, x):
+		if x == 0:
+			return True
+		elif x < 0:
+			return False
+		else:
+			y = 0
+			tmp = x
+			while(x != 0):
+				y = (y * 10) + (x % 10)
+				x = x / 10
+			if y == tmp:
+				return True
+			else:
+				return False
 
-arr1 = [1,2]
-arr2 = [3,4]
+	def removeDuplicates(self, nums):
+		ret = 1
+		i = 1
+		end = len(nums)
+		if not nums:
+			return 0
+		while i < end:
+			if nums[i] != nums[i - 1]:
+				ret += 1
+				i += 1
+			else:
+				del nums[i]
+				end -= 1
+		return ret
 
-#x = -1234
-#res = res1.reverse(x)
-#print res
+	def removeElement(self, nums, val):
+		i = 0
+		end = len(nums)
+		if not nums:
+			return 0
+		while i < end:
+			if nums[i] == val:
+				del nums[i]
+				end -= 1
+			else:
+				i += 1
+		return len(nums)
 
-#nums = [0,7,-4,-7,0,14,-6,-4,-12,11,4,9,7,4,-10,8,10,5,4,14,6,0,-9,5,6,6,-11,1,-8,-1,2,-1,13,5,-1,-2,4,9,9,-1,-3,-1,-7,11,10,-2,-4,5,10,-15,-4,-6,-8,2,14,13,-7,11,-9,-8,-13,0,-1,-15,-10,13,-2,1,-1,-15,7,3,-9,7,-1,-14,-10,2,6,8,-6,-12,-13,1,-3,8,-9,-2,4,-2,-3,6,5,11,6,11,10,12,-11,-14]
-#nums = [-1, 0, 1, 2, -1, -4]
-#res = res1.threeSum(nums)
-#print res
-#x = float(8.6631)
-#n = int(3)
-#y = res1.myPow(x, n)
-#y = res1.numDecodings(s)
-#print y
+	def searchRange(self, nums, target):
+		ret = []
+		tmp = []
+		for i in range(len(nums)):
+			if nums[i] == target:
+				tmp.append(i)
+		if not tmp:
+			ret = [-1,-1]
+		else:
+			ret = [min(tmp), max(tmp)]
+		return ret
+
+	def strStr(self, haystack, needle):
+		end = len(haystack) - len(needle) + 1
+		for i in range(0, end):
+			tmp = haystack[i:i+len(needle)]
+			print haystack[i:i+len(needle)]
+			if tmp == needle:
+				return i
+		i = -1
+		return i
+
+	def permute(self, nums):
+		return [[j] + p for i,j in enumerate(nums) for p in self.permute((nums[:i]+nums[i+1:]))] or [[]]
+
+	def permuteUnique(self, nums):
+		ret = self.permute(nums)
+		end = len(ret)
+		i = 0
+		while i < end:
+			tmp1 = ret[i]
+			tmp2 = ret[i+1:]
+			if tmp1 in tmp2:
+				del ret[i]
+				end -= 1
+				i = 0
+			else:
+				i += 1
+		return ret
+#	def lengthOfLongestSubstring(self, s):
+
+n = [1,1,2]
+m = "s"
+sol = Solution()
+print sol.permuteUnique(n)
