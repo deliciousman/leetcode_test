@@ -9,6 +9,20 @@ import glob
 imgfiles = [f for f in glob.glob('./new_golden_image/*.jpg')]
 save_dir = "/home/vincent/codebase/shipcontainer/test/light/light_result/"
 
+def add_noise_for_pure_bg(img):
+	tmpimg = np.asarray(img, dtype=float)
+	noise_amount = 0.09
+	prob = 0.4
+	num_salt = np.ceil(noise_amount * tmpimg.size * prob)
+	coords = [np.random.randint(0, j - 1, int(num_salt)) for j in tmpimg.shape]
+	tmpimg[coords] = 255
+	num_pepper = np.ceil(noise_amount * tmpimg.size * (1 - prob))
+	coords = [np.random.randint(0, j - 1, int(num_pepper)) for j in tmpimg.shape]
+	tmpimg[coords] = 0
+	tmpimg = np.uint8(tmpimg)
+	ret = Image.fromarray(tmpimg)
+	return ret
+
 def median_filter(img, imgname, k_size):
 	img[:,:,0] = ndimage.median_filter(img[:,:,0], size=(k_size,k_size))
 	img[:,:,1] = ndimage.median_filter(img[:,:,1], size=(k_size,k_size))
