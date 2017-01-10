@@ -14,7 +14,7 @@ def cal_surf_feature(src_img, dst_img):
 		matches = bf.knnMatch(des1, des2, k=2)
 		match = []
 		for m, n in matches:
-			if m.distance < 0.75 * n.distance:
+			if m.distance < 0.5 * n.distance:
 				match.append([m])
 		ret = cv2.drawMatchesKnn(src_img, k1, dst_img, k2, match, None, flags=2)
 	except:
@@ -33,7 +33,7 @@ def cal_sift_feature(src_img, dst_img):
 		matches = bf.knnMatch(des1, des2, k=2)
 		match = []
 		for m, n in matches:
-			if m.distance < 0.75 * n.distance:
+			if m.distance < 0.5 * n.distance:
 				match.append([m])
 		ret = cv2.drawMatchesKnn(src_img, k1, dst_img, k2, match, None, flags=2)
 	except:
@@ -51,7 +51,7 @@ def cal_orb_feature(src_img, dst_img):
 	try:
 		matches = bf.match(des1, des2)
 		matches = sorted(matches, key = lambda x:x.distance)
-		if len(matches) < 100:
+		if len(matches) < 200:
 			ret = np.zeros((src_img.shape[0], src_img.shape[1]*2, src_img.shape[2]))
 			ret[:, 0:src_img.shape[1]] = src_img
 			ret[:, src_img.shape[1]:src_img.shape[1]*2] = dst_img
@@ -70,7 +70,7 @@ def main():
 	src_img = cv2.imread(src_dir)
 	while True:
 		ret, frame = cap.read()
-		res = cal_surf_feature(src_img, frame)
+		res = cal_sift_feature(src_img, frame)
 		cv2.imshow("Frame", res)
 		
 		if cv2.waitKey(1) & 0xFF == ord('q'):
