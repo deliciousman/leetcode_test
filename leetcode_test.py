@@ -174,9 +174,29 @@ class Solution:
 			else:
 				i += 1
 		return ret
+	def countAndSay(self, n):
+		if n < 1:
+			return ""
+		tmp = str(n)
+		ret = ''
+		tmp_dict = {}
+		if len(tmp) == 1:
+			for i in range(int(tmp[0])):
+				ret += '1'
+			return ret
+		for i in range(len(tmp)):
+
+			if tmp[i] not in tmp_dict:
+				tmp_dict[tmp[i]] = 1
+			else:
+				tmp_dict[tmp[i]] += 1
+		for k in tmp_dict.keys():
+			ret += str(tmp_dict[k])
+			ret += k
+		return ret
 #	def lengthOfLongestSubstring(self, s):
 
-n = [1,1,2]
-m = "s"
+n = 2
+
 sol = Solution()
-print sol.permuteUnique(n)
+print sol.countAndSay(n)
